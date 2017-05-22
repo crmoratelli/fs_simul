@@ -9,5 +9,6 @@ simulfs: $(SRC)
 clean:
 	rm -f *.o
 	rm -f simulfs
+	rm -f simul.fs
 	rm -f log.dat
 	rm -f sector_map.png

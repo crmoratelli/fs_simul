@@ -35,6 +35,7 @@ int ds_init(char* filename, int sector_size, int number_sectors, int format){
 			}
 			return 0;
 		}
+		return 1;
 	}
 
 	/* File doesn't exist initialize it. */
