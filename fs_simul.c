@@ -27,7 +27,7 @@ int main(int argc, char **argv){
 	}
 	
 	
-	/* Implement the call for the other filesystem calls here!! */
+	/* Implement the other filesystem calls here!! */
 	
 	
 	
