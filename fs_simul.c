@@ -7,6 +7,7 @@ void usage(char *exec){
 	printf("%s -format\n", exec);
 	printf("%s -create <disk file> <simulated file>\n", exec);
 	printf("%s -read <disk file> <simulated file>\n", exec);
+    printf("%s -ls <absolute directory path>\n", exec);
 	printf("%s -del <simulated file>\n", exec);
 	printf("%s -mkdir <absolute directory path>\n", exec);
 	printf("%s -rmdir <absolute directory path>\n", exec);
