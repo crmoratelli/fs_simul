@@ -4,6 +4,13 @@
 
 
 /* Filesystem structures. */
+/**
+ * Sector 0.
+ */
+struct sector_0{
+	unsigned int free_sectors_list;
+	unsigned char unused[508];	
+};
 
 /**
  * File or directory entry. 
@@ -16,17 +23,7 @@ struct file_dir_entry{
 };
 
 /**
- * Root directory table.
- * First directory table of the file system. Should be written to the sector 0.
- */
-struct root_table_directory{
-	unsigned int free_sectors_list;		/**< First free sector. */
-	struct file_dir_entry entries[15];	/**< List of file or directories. */
-	unsigned char not_used[28];		/**< Reserved, not used. */	
-};
-
-/**
- * Subdirectories file table.
+ * Directory table.
  */
 struct table_directory{
 	struct file_dir_entry entries[16]; 	/**< List of file or directories. */

@@ -11,18 +11,24 @@
  */
 int fs_format(){
 	int ret, i;
-	struct root_table_directory root_dir;
+	struct table_directory root_dir;
+	struct sector_0 sector0;
 	struct sector_data sector;
 	
 	if ( (ret = ds_init(FILENAME, SECTOR_SIZE, NUMBER_OF_SECTORS, 1)) != 0 ){
 		return ret;
 	}
 	
+	memset (&sector0, 0, sizeof(struct sector_0));
+	
+	/* first free sector. */
+	sector0.free_sectors_list = 2;
+	
+	ds_write_sector(0, (void*)&sector0, SECTOR_SIZE);
+	
 	memset(&root_dir, 0, sizeof(root_dir));
 	
-	root_dir.free_sectors_list = 1; /* first free sector. */
-	
-	ds_write_sector(0, (void*)&root_dir, SECTOR_SIZE);
+	ds_write_sector(1, (void*)&root_dir, SECTOR_SIZE);
 	
 	/* Create a list of free sectors. */
 	memset(&sector, 0, sizeof(sector));
@@ -161,7 +167,8 @@ int fs_rmdir(char *directory_path){
  */
 int fs_free_map(char *log_f){
 	int ret, i, next;
-	struct root_table_directory root_dir;
+	//struct root_table_directory root_dir;
+	struct sector_0 sector0;
 	struct sector_data sector;
 	char *sector_array;
 	FILE* log;
@@ -179,10 +186,10 @@ int fs_free_map(char *log_f){
 	/* set 0 to all sectors. Zero means that the sector is used. */
 	memset(sector_array, 0, NUMBER_OF_SECTORS);
 	
-	/* Read the root dir to get the free blocks list. */
-	ds_read_sector(0, (void*)&root_dir, SECTOR_SIZE);
+	/* Read the sector 0 to get the free blocks list. */
+	ds_read_sector(0, (void*)&sector0, SECTOR_SIZE);
 	
-	next = root_dir.free_sectors_list;
+	next = sector0.free_sectors_list;
 
 	while(next){
 		/* The sector is in the free list, mark with 1. */
@@ -217,7 +224,7 @@ int fs_free_map(char *log_f){
 	if(pid==0){
 		execvp("gnuplot", exec_params);
 	}
-	
+	/* Wait gnuplot to finish */
 	wait(&status);
 	
 	free(sector_array);
