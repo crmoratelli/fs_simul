@@ -33,7 +33,7 @@ int fs_format(){
 	/* Create a list of free sectors. */
 	memset(&sector, 0, sizeof(sector));
 	
-	for(i=1;i<NUMBER_OF_SECTORS;i++){
+	for(i=2;i<NUMBER_OF_SECTORS;i++){
 		if(i<NUMBER_OF_SECTORS-1){
 			sector.next_sector = i+1;
 		}else{
